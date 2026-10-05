@@ -1,0 +1,8 @@
+# Keep Unix line endings on anything a shell runs, even when the repo is cloned
+# with Git for Windows and then used from WSL.
+bin/fakes text eol=lf
+Makefile text eol=lf
+*.sh text eol=lf
+
+# Prebuilt fake partner service.
+bin/fakes-* binary

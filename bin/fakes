@@ -1,0 +1,15 @@
+#!/bin/sh
+# Runs the fake bank and enrichment vendor (an HTTP service on 127.0.0.1:$FAKES_PORT,
+# default 8899). Picks the build for this machine. Usually started by `make fakes`.
+dir=$(cd "$(dirname "$0")" && pwd)
+os=$(uname -s | tr '[:upper:]' '[:lower:]')
+case "$(uname -m)" in
+  x86_64|amd64) arch=amd64 ;;
+  arm64|aarch64) arch=arm64 ;;
+  *) echo "No fakes build for $(uname -m)" >&2; exit 1 ;;
+esac
+if [ ! -x "$dir/fakes-$os-$arch" ]; then
+  echo "No fakes build for $os-$arch (on Windows, use WSL)" >&2
+  exit 1
+fi
+exec "$dir/fakes-$os-$arch" "$@"
